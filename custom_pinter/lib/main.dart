@@ -1,4 +1,4 @@
-import 'package:custom_pinter/src/pages/headers_pages.dart';
+import 'package:custom_pinter/src/retos/animated_retos.dart';
 import 'package:flutter/material.dart';
  
 void main() => runApp(MyApp());
@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Pointer',
-      home: HeaderPage()
+      home:AnimacionesPageRetos()
     );
   }
 }
