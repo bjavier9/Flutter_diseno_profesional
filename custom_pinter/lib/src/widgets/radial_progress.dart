@@ -8,13 +8,15 @@ class RadialProgress extends StatefulWidget {
   final Color colorSecundario;
   final double grosorPrimario;
   final double grosorSecundario;
+  final String messages;
 
-  const RadialProgress({@required this.porcentaje, 
+  const RadialProgress({
+  @required this.porcentaje, 
   this.colorPrimario=Colors.blue, 
   this.colorSecundario=Colors.grey, 
   this.grosorSecundario=4.0,
-   this.grosorPrimario=10.0
-
+  this.grosorPrimario=10.0, 
+  this.messages=''
   });
   @override
   _RadialProgressState createState() => _RadialProgressState();
@@ -53,9 +55,17 @@ controller = new AnimationController(vsync: this, duration:Duration(milliseconds
 
 
 
-
   @override
   Widget build(BuildContext context) {
+    String _mesaje ='';
+    if(widget.porcentaje==100){
+      setState(() {
+         _mesaje = widget.messages; 
+      });
+    
+    }
+  
+
     controller.forward(from:0.0);
     final diferenciaAnimar = widget.porcentaje-porcentajeAterior;
     porcentajeAterior=widget.porcentaje;
@@ -67,12 +77,19 @@ controller = new AnimationController(vsync: this, duration:Duration(milliseconds
         width: double.infinity,
         height: double.infinity,
         child: CustomPaint(
-          painter: _MiRadialProgress((widget.porcentaje-diferenciaAnimar)+(diferenciaAnimar*controller.value)
+          foregroundPainter: _MiRadialProgress((widget.porcentaje-diferenciaAnimar)+(diferenciaAnimar*controller.value)
           ,widget.colorPrimario
           ,widget.colorSecundario,
           widget.grosorPrimario,
           widget.grosorSecundario,
           
+          ),
+          child: Padding(
+             padding: const EdgeInsets.all(8.0),
+              child:Center(
+                child:Text(_mesaje)
+                )
+
           ),
         ),
       );
@@ -110,7 +127,6 @@ class _MiRadialProgress extends CustomPainter {
     final radio  = min( size.width * 0.5, size.height * 0.5 );
 
     canvas.drawCircle(center, radio, paint);
-
     // Arco
     final paintArco = new Paint()
       ..strokeWidth = grosorPrimario
