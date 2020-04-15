@@ -131,7 +131,9 @@ class _MiRadialProgress extends CustomPainter {
     final paintArco = new Paint()
       ..strokeWidth = grosorPrimario
       ..color       = colorprimario
+      ..strokeCap   = StrokeCap.round
       ..style       = PaintingStyle.stroke;
+
 
     // Parte que se deberá ir llenando
     double arcAngle = 2 * pi * ( porcentaje / 100 );
