@@ -12,7 +12,7 @@ class SlideShowPage extends StatelessWidget {
       body:Column(
         children: <Widget>[
           Expanded(child:MySlideShow() ,),
-           Expanded(child:MySlideShow() ,)
+          
           
           
         ],
