@@ -9,18 +9,38 @@ class SlideShowPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Slideshow(
-        puntosArriba: false,
-        colorPrimario: Colors.redAccent,
-        colorSecundario: Colors.purple,
-        slides: <Widget>[
-          SvgPicture.asset('assets/foto-1.svg'),
-          SvgPicture.asset('assets/foto-2.svg'),
-          SvgPicture.asset('assets/foto-3.svg'),
-          SvgPicture.asset('assets/foto-4.svg'),
-          SvgPicture.asset('assets/foto-5.svg')
+      body:Column(
+        children: <Widget>[
+          Expanded(child:MySlideShow() ,),
+           Expanded(child:MySlideShow() ,)
+          
+          
         ],
-      ),
+      )
+    );
+  }
+}
+
+class MySlideShow extends StatelessWidget {
+  const MySlideShow({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Slideshow(
+      bulletPrimario: 15,
+      bulletSecundario: 16,
+      puntosArriba: false,
+      colorPrimario: Colors.redAccent,
+      colorSecundario: Colors.purple,
+      slides: <Widget>[
+        SvgPicture.asset('assets/foto-1.svg'),
+        SvgPicture.asset('assets/foto-2.svg'),
+        SvgPicture.asset('assets/foto-3.svg'),
+        SvgPicture.asset('assets/foto-4.svg'),
+        SvgPicture.asset('assets/foto-5.svg')
+      ],
     );
   }
 }
