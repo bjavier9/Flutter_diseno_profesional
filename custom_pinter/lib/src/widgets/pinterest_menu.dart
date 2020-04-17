@@ -1,80 +1,90 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PinterestButton{
-
+class PinterestButton {
   final Function onPressed;
   final IconData icon;
 
-  PinterestButton({
-   @required  this.onPressed, 
-   @required this.icon
-   });
+  PinterestButton({@required this.onPressed, @required this.icon});
 }
-
-
 
 class PinterestMenu extends StatelessWidget {
   final bool mostrar;
- PinterestMenu({
-   this.mostrar=true
- });
+  final Color activeColor;
+  final Color backgroundColor;
+  final Color inactiveColor;
+  final List<PinterestButton>  items;
+  PinterestMenu(
+      {this.mostrar = true,
+      this.backgroundColor = Colors.white,
+      this.activeColor = Colors.blueGrey,
+      this.inactiveColor = Colors.blueGrey, 
+      @required this.items
+      });
 
-final List<PinterestButton> items = [
-  PinterestButton(icon: Icons.pie_chart, onPressed: (){
-    print('Ice pie chart');
-  }),
-  PinterestButton(icon: Icons.search, onPressed: (){
-    print('Ice search');
-  }),
-  PinterestButton(icon: Icons.notifications, onPressed: (){
-    print('Ice notification');
-  }),
-  PinterestButton(icon: Icons.supervised_user_circle, onPressed: (){
-    print('Ice user circle');
-  })
-
-];
+  // final List<PinterestButton> items = [
+  //   PinterestButton(
+  //       icon: Icons.pie_chart,
+  //       onPressed: () {
+  //         print('Ice pie chart');
+  //       }),
+  //   PinterestButton(
+  //       icon: Icons.search,
+  //       onPressed: () {
+  //         print('Ice search');
+  //       }),
+  //   PinterestButton(
+  //       icon: Icons.notifications,
+  //       onPressed: () {
+  //         print('Ice notification');
+  //       }),
+  //   PinterestButton(
+  //       icon: Icons.supervised_user_circle,
+  //       onPressed: () {
+  //         print('Ice user circle');
+  //       })
+  // ];
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_)=>new _MenuModel(),
-            child: AnimatedOpacity(
-              opacity: (mostrar)?1:0,
-              duration: Duration(milliseconds: 250),
-                          child: _PinteresMenuBackground(
-        child: _MenuItems(items),
+      create: (_) => new _MenuModel(),
+      child: AnimatedOpacity(
+        opacity: (mostrar) ? 1 : 0,
+        duration: Duration(milliseconds: 250),
+        child: Builder(
+          builder: (BuildContext context) {
+            Provider.of<_MenuModel>(context).activeColor=this.activeColor;
+            Provider.of<_MenuModel>(context).backgroundColor=this.backgroundColor;
+            Provider.of<_MenuModel>(context).inactiveColor=this.inactiveColor;
+
+            return _PinteresMenuBackground(
+              child: _MenuItems(items),
+            );
+          },
+        ),
       ),
-            ),
     );
   }
 }
 
 class _PinteresMenuBackground extends StatelessWidget {
   final Widget child;
-  
-   _PinteresMenuBackground({
-  @required this.child
-  });
+
+  _PinteresMenuBackground({@required this.child});
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundColor = Provider.of<_MenuModel>(context).backgroundColor;
     return Container(
       child: child,
-     width: 250,
-     height: 60,
-     decoration: BoxDecoration(
-       color: Colors.white,
-       borderRadius:BorderRadius.all(Radius.circular(100)),
-       boxShadow: <BoxShadow>[
-        BoxShadow(
-          color: Colors.black38,
-          blurRadius: 10,
-          spreadRadius: -5
-        )
-       ]
-
-     ),
+      width: 250,
+      height: 60,
+      decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.all(Radius.circular(100)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(color: Colors.black38, blurRadius: 10, spreadRadius: -5)
+          ]),
     );
   }
 }
@@ -84,12 +94,10 @@ class _MenuItems extends StatelessWidget {
   _MenuItems(this.menuItems);
   @override
   Widget build(BuildContext context) {
- 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: List.generate(menuItems.length, (i)=>_PinterestMenuButton(i, menuItems[i]))
-
-    );
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(
+            menuItems.length, (i) => _PinterestMenuButton(i, menuItems[i])));
   }
 }
 
@@ -97,39 +105,39 @@ class _PinterestMenuButton extends StatelessWidget {
   final int index;
   final PinterestButton item;
 
-  _PinterestMenuButton( this.index, this.item);
+  _PinterestMenuButton(this.index, this.item);
 
   @override
   Widget build(BuildContext context) {
     final itemSeleccionado = Provider.of<_MenuModel>(context).itemSeleccionado;
-
-    return 
-    GestureDetector(
-      onTap:(){
-        Provider.of<_MenuModel>(context, listen: false).itemSeleccionado=index;
+    final menuModel =   Provider.of<_MenuModel>(context);
+    return GestureDetector(
+      onTap: () {
+        Provider.of<_MenuModel>(context, listen: false).itemSeleccionado =
+            index;
         item.onPressed();
-      } ,
+      },
       behavior: HitTestBehavior.translucent,
-          child: Container(
+      child: Container(
         child: Icon(
           item.icon,
-          size: (itemSeleccionado==index)?35:25,
-          color:(itemSeleccionado==index)?Colors.black:Colors.blueGrey,
-          ),
+          size: (itemSeleccionado == index) ? 35 : 25,
+          color: (itemSeleccionado == index) ? menuModel.activeColor: menuModel.inactiveColor,
+        ),
       ),
     );
   }
 }
 
+class _MenuModel with ChangeNotifier {
+  Color activeColor = Colors.white;
+  Color backgroundColor = Colors.blueGrey;
+  Color inactiveColor = Colors.blueGrey;
+  int _itemSeleccionado = 0;
 
-
-class _MenuModel with ChangeNotifier{
-int _itemSeleccionado = 0;
-int get itemSeleccionado => this._itemSeleccionado;
-set  itemSeleccionado(int index){
-  this._itemSeleccionado = index;
-  notifyListeners();
-}
-
-
+  int get itemSeleccionado => this._itemSeleccionado;
+  set itemSeleccionado(int index) {
+    this._itemSeleccionado = index;
+    notifyListeners();
+  }
 }

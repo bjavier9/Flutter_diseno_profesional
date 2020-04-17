@@ -42,7 +42,33 @@ class _PinterestMenuLocation extends StatelessWidget {
         height: 100,
         width: widthPantalla,
         child: Align(
-          child:  PinterestMenu(mostrar: mostrar,),
+          child:  PinterestMenu(
+            items : [
+    PinterestButton(
+        icon: Icons.pie_chart,
+        onPressed: () {
+          print('Ice pie chart');
+        }),
+    PinterestButton(
+        icon: Icons.search,
+        onPressed: () {
+          print('Ice search');
+        }),
+    PinterestButton(
+        icon: Icons.notifications,
+        onPressed: () {
+          print('Ice notification');
+        }),
+    PinterestButton(
+        icon: Icons.supervised_user_circle,
+        onPressed: () {
+          print('Ice user circle');
+        })
+  ],
+            mostrar: mostrar,
+            backgroundColor: Colors.red,
+
+            ),
         ),
       )
       );
@@ -65,7 +91,7 @@ double scrollAnterior =0;
 @override
   void initState() {
    controller.addListener((){
-   if(controller.offset>scrollAnterior){
+   if(controller.offset>scrollAnterior && controller.offset>150){
 Provider.of<_MenuModel>(context, listen: false).mostrar = false;
    }else{
 Provider.of<_MenuModel>(context, listen: false).mostrar = true;
