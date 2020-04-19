@@ -1,6 +1,8 @@
+import 'package:custom_pinter/src/theme/theme.dart';
 import 'package:custom_pinter/src/widgets/slideshow.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class SlideShowPage extends StatelessWidget {
   const SlideShowPage({Key key}) : super(key: key);
@@ -28,11 +30,12 @@ class MySlideShow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final apptheme = Provider.of<ThemeChanger>(context);
     return Slideshow(
       bulletPrimario: 15,
       bulletSecundario: 16,
       puntosArriba: false,
-      colorPrimario: Colors.redAccent,
+      colorPrimario:(apptheme.darkTheme)?apptheme.currentTheme.accentColor:Color(0xffFF5A7E),
       colorSecundario: Colors.purple,
       slides: <Widget>[
         SvgPicture.asset('assets/foto-1.svg'),

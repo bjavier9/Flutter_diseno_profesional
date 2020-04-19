@@ -1,3 +1,4 @@
+import 'package:custom_pinter/src/theme/theme.dart';
 import 'package:custom_pinter/src/widgets/pinterest_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -35,6 +36,7 @@ class _PinterestMenuLocation extends StatelessWidget {
   Widget build(BuildContext context) {
     final widthPantalla = MediaQuery.of(context).size.width;
     final mostrar = Provider.of<_MenuModel>(context).mostrar;
+    final apptheme = Provider.of<ThemeChanger>(context).currentTheme;
     return Positioned(
       bottom: 30,
       child:Container(
@@ -66,7 +68,9 @@ class _PinterestMenuLocation extends StatelessWidget {
         })
   ],
             mostrar: mostrar,
-            backgroundColor: Colors.red,
+            backgroundColor: apptheme.scaffoldBackgroundColor,
+            activeColor: apptheme.accentColor,
+            
 
             ),
         ),
