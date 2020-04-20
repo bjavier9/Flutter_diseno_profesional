@@ -1,5 +1,5 @@
 
-import 'package:custom_pinter/src/labs/slideshow_page.dart';
+import 'package:custom_pinter/src/pages/slideshow_page.dart';
 import 'package:custom_pinter/src/pages/animaciones_page.dart';
 import 'package:custom_pinter/src/pages/emergency_page.dart';
 import 'package:custom_pinter/src/pages/graficas_circulares_pages.dart';

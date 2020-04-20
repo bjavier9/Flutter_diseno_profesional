@@ -1,3 +1,4 @@
+import 'package:custom_pinter/src/models/layaut_model.dart';
 import 'package:custom_pinter/src/routes/routes.dart';
 import 'package:custom_pinter/src/theme/theme.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,18 +6,38 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class LaucherPage extends StatelessWidget {
+class LaucherTabletPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final apptheme = Provider.of<ThemeChanger>(context).currentTheme;
+    final apptheme = Provider.of<ThemeChanger>(context);
+     final layautModel= Provider.of<LayautModel>(context);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: apptheme.accentColor,
-        title: Center(child: Text('Desenos en flutter--- telefono')),
+        backgroundColor: apptheme.currentTheme.accentColor,
+        title: Center(child: Text('Desenos en flutter -- Tablet')),
       ),
       drawer: _MenuPrincipal(),
-      body:_ListaOpciones(),
+      
+      body: Row(
+        children: <Widget>[
+          Container(
+            width: 300,
+            height: double.infinity,
+            child: _ListaOpciones(),
+          ),
+          Container(
+            width: 1,
+            height: double.infinity,
+            color: (apptheme.darkTheme)?Colors.grey:apptheme.currentTheme.accentColor,        
+          ),
+          Expanded(
+              child:layautModel.currentPage,
+
+          )
+        ],
+      ),
+      // body:_ListaOpciones(),
     );
   }
 }
@@ -35,7 +56,10 @@ final apptheme = Provider.of<ThemeChanger>(context).currentTheme;
         title: Text(pagesRoutes[i].titulo),
         trailing: Icon(Icons.chevron_right,color: apptheme.accentColor,),
         onTap: (){
-         Navigator.push(context,MaterialPageRoute(builder:(BuildContext context)=>(pagesRoutes[i].page)));
+        final layautModel= Provider.of<LayautModel>(context, listen: false);
+        layautModel.currentPage=pagesRoutes[i].page;
+
+        //  Navigator.push(context,MaterialPageRoute(builder:(BuildContext context)=>(pagesRoutes[i].page)));
 
         },
       ), 

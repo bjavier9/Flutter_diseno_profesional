@@ -9,16 +9,23 @@ class SlideShowPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isLarge;
+    if(MediaQuery.of(context).size.height > 500){
+      isLarge=true;
+    }else{
+      isLarge=false;
+    }
+
+
+  final children = [
+  Expanded(child:MySlideShow()),
+   Expanded(child:MySlideShow()),
+  ];
     return Scaffold(
       backgroundColor: Colors.white,
-      body:Column(
-        children: <Widget>[
-          Expanded(child:MySlideShow() ,),
-          
-          
-          
-        ],
-      )
+      body:(isLarge)
+              ?Column(children:children)
+              :Row(children:children,)
     );
   }
 }
@@ -36,7 +43,7 @@ class MySlideShow extends StatelessWidget {
       bulletSecundario: 16,
       puntosArriba: false,
       colorPrimario:(apptheme.darkTheme)?apptheme.currentTheme.accentColor:Color(0xffFF5A7E),
-      colorSecundario: Colors.purple,
+      colorSecundario: Colors.grey,
       slides: <Widget>[
         SvgPicture.asset('assets/foto-1.svg'),
         SvgPicture.asset('assets/foto-2.svg'),
